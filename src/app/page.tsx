@@ -14,11 +14,12 @@ export default function Cocktails() {
 
     useEffect(() => {
         const fetchIngredients = async () => {
-            const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list");
-            const data = await response.json();
-            setIngredients(data.drinks.map((item: { strIngredient1: string }) => item.strIngredient1));
-            fetchIngredients(); 
-        }, []);
+        const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list");
+        const data = await response.json();
+        setIngredients(data.drinks.map((item: { strIngredient1: string }) => item.strIngredient1));
+    };
+    fetchIngredients(); 
+}, []);
 
     const handleIngredientChange = (e) => {
         setIngredientQuery(e.target.value);
