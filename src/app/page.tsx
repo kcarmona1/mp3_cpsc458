@@ -18,7 +18,7 @@ export default function Cocktails() {
             const data = await response.json();
             setIngredients(data.drinks.map(item => item.strIngredient1));};
             fetchIngredients(); 
-        });
+        }, []);
 
     const handleIngredientChange = (e) => {
         setIngredientQuery(e.target.value);
@@ -104,11 +104,10 @@ export default function Cocktails() {
             />
 
             <button onClick={handleSearchCocktail}>Search</button>
-            
+
             {cocktail && (
                 <div>
                     <h2>{cocktail.strDrink}</h2>
-                    
                     <p>{cocktail.strInstructions}</p>
                 </div>
             )}
