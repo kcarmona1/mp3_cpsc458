@@ -1,35 +1,33 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import '../styles/styles.css';
 
-// References: StackOverflow to debug/troubleshoot, class notes, Next.js docs, React docs, W3 Schools
-
 export default function Cocktails() {
-    const [ingredientQuery, setIngredientQuery] = useState('');
-    const [cocktailQuery, setCocktailQuery] = useState('');
-    const [cocktails, setCocktails] = useState([]);
-    const [ingredients, setIngredients] = useState([]);
-    const [cocktail, setCocktail] = useState(null);
-    const [showIngredients, setShowIngredients] = useState(false);
+    const [ingredientQuery, setIngredientQuery] = useState<string>('');
+    const [cocktailQuery, setCocktailQuery] = useState<string>('');
+    const [cocktails, setCocktails] = useState<any[]>([]);
+    const [ingredients, setIngredients] = useState<string[]>([]);
+    const [cocktail, setCocktail] = useState<any>(null);
+    const [showIngredients, setShowIngredients] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchIngredients = async () => {
-        const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list");
-        const data = await response.json();
-        setIngredients(data.drinks.map((item: { strIngredient1: string }) => item.strIngredient1));
-    };
-    fetchIngredients(); 
-}, []);
+            const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list");
+            const data = await response.json();
+            setIngredients(data.drinks.map((item: { strIngredient1: string }) => item.strIngredient1));
+        };
+        fetchIngredients(); 
+    }, []);
 
-    const handleIngredientChange = (e) => {
+    const handleIngredientChange = (e: ChangeEvent<HTMLInputElement>) => {
         setIngredientQuery(e.target.value);
     };
 
-    const handleCocktailChange = (e) => {
+    const handleCocktailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCocktailQuery(e.target.value);
     };
 
-    const handleSubmit = async (e, query) => {
+    const handleSubmit = async (e: FormEvent, query: string) => {
         e.preventDefault();
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`);
         const data = await response.json();
@@ -46,13 +44,11 @@ export default function Cocktails() {
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktailQuery}`);
         const data = await response.json();
         setCocktail(data.drinks[0]);
-        
     };
 
     const handleToggleIngredients = () => {
         setShowIngredients(!showIngredients);
     };
-
     return (
         <div>
             <h1>Karla's Cocktail Explorer</h1>
